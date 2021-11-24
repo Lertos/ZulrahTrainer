@@ -8,14 +8,20 @@ img {
     min-width: 64px;
 }
 
-
-
 .hidden {
     display: none;
 }
 
+.red {
+    color: red;
+}
+
 #divRotationProgress {
     text-align: center;
+}
+
+#divOptionPicker {
+    margin: 10px;
 }
 
 .stackedImg {
@@ -29,6 +35,14 @@ img {
 .biggerImg {
     max-width: 128px;
     min-width: 128px;
+}
+
+.borderedImg {
+    border: 3px solid rgb(252, 252, 252);
+}
+
+.flippedImg {
+    transform: scaleX(-1);
 }
 
 .align-center {
@@ -45,9 +59,9 @@ img {
     border: 3px solid rgb(126, 182, 126);
     color: white;
     font-weight: bold;
-    padding: 16px 32px;
+    padding: 10px 24px;
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     margin: 6px 4px;
     opacity: 1;
     transition: 0.3s;
