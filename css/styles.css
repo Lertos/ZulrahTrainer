@@ -8,12 +8,24 @@ img {
     min-width: 64px;
 }
 
+h3 {
+    margin: 12px 4px 4px 4px;
+}
+
 .hidden {
     display: none;
 }
 
 .red {
     color: red;
+}
+
+.yellow {
+    color: red;
+}
+
+.zeroMargin {
+    margin: 0px;
 }
 
 #divRotationProgress {
@@ -41,6 +53,14 @@ img {
     border: 3px solid rgb(252, 252, 252);
 }
 
+.borderedImg:hover {
+    border: 3px solid rgb(126, 182, 126);
+}
+
+.highlightedImg {
+    border: 3px solid rgb(236, 232, 0);
+}
+
 .flippedImg {
     transform: scaleX(-1);
 }
@@ -59,10 +79,10 @@ img {
     border: 3px solid rgb(126, 182, 126);
     color: white;
     font-weight: bold;
-    padding: 10px 24px;
+    padding: 8px 16px;
     text-align: center;
     font-size: 20px;
-    margin: 6px 4px;
+    margin: 4px 4px 0px 4px;
     opacity: 1;
     transition: 0.3s;
     display: inline-block;

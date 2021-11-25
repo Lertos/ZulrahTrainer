@@ -8,7 +8,7 @@
 
     <body class='align-center'>
         <button id='btnSeeRotations' class='button'>See Rotations</button>
-        <button class='button'>Reset</button>
+        <button id='btnReset' class='button'>Reset</button>
 
         <div class="flex-container">
 
@@ -24,7 +24,7 @@
             </div>
     
             <div id='divRightPanel' class="flex-child">
-                <h5 class='red'>PHASE 1 is the same for all rotations so it's skipped here</h5>
+                <h5 class='red zeroMargin'>PHASE 1 is the same for all rotations so it's skipped here</h5>
                 <h3 id='currentPhase'>PHASE 2</h3>
                 <hr/>
 
@@ -49,13 +49,13 @@
 
                     <div id='divZulrahType'>
                         <h3>Zulrah Type</h3>
-                        <img class='borderedImg' src="./images/zulrah_green.png">
-                        <img class='borderedImg' src="./images/zulrah_blue.png">
+                        <img id='test2' class='borderedImg' src="./images/zulrah_green.png">
+                        <img id='test3' class='borderedImg' src="./images/zulrah_blue.png">
                         <img class='borderedImg' src="./images/zulrah_red.png">
                         <img class='borderedImg' src="./images/zulrah_jad.png">
                     </div>
 
-                    <div id='divZulrahSpot'>
+                    <div id='divZulrahSpot' class='hidden'>
                         <h3>Player Location</h3>
                         <img class='borderedImg' src="./images/zulrah_spot_side.png">
                         <img class='borderedImg' src="./images/zulrah_spot_top.png">
@@ -63,7 +63,7 @@
                         <img class='borderedImg flippedImg' src="./images/zulrah_spot_side.png">
                     </div>
 
-                    <div id='divPlayerSpot'>
+                    <div id='divPlayerSpot' class='hidden'>
                         <h3>Player Location</h3>
                         <img class='borderedImg' src="./images/movement_bottom.png">
                         <img class='borderedImg' src="./images/movement_corner.png">
@@ -72,13 +72,16 @@
                         <img class='borderedImg flippedImg' src="./images/movement_bottom.png">
                     </div>
 
-                    <div id='divNeededPrayer'>
-
+                    <div id='divNeededPrayer' class='hidden'>
+                        <h3>Needed Prayer</h3>
+                        <img class='borderedImg' src="./images/prayer_ranged.png">
+                        <img class='borderedImg' src="./images/prayer_mage.png">
+                        <img class='borderedImg' src="./images/prayer_ranged_into_mage.png">
+                        <img class='borderedImg' src="./images/prayer_mage_into_ranged.png">
                     </div>
 
                 </div>
 
-                <button class='button'>Reset</button>
             </div>
 
             <div id='divRightPanelRotations' class="flex-child hidden">
