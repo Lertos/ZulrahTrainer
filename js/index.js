@@ -8,8 +8,42 @@ const optionStates = {
     PRAYER: 'divNeededPrayer'
 }
 
-let optionState = optionStates.ZULRAH
+const zulrahTypes = {
+    RED: 'red',
+    GREEN: 'green',
+    BLUE: 'blue',
+    JAD: 'jad'
+}
 
+const zulrahSpots = {
+    LEFT: 'left',
+    MIDDLE: 'middle',
+    TOP: 'top',
+    RIGHT: 'right'
+}
+
+const playerSpots = {
+    BOTTOM_LEFT: 'bottom_left',
+    CORNER_LEFT: 'corner_left',
+    MIDDLE: 'middle',
+    CORNER_RIGHT: 'corner_right',
+    BOTTOM_RIGHT: 'bottom_right'
+}
+
+const prayers = {
+    RANGED: 'ranged',
+    MAGE: 'mage',
+    RANGED_INTO_MAGE: 'ranged_into_mage',
+    MAGE_INTO_RANGED: 'mage_into_ranged',
+    NOT_APPLICABLE: 'not_applicable',
+}
+
+//Each array holds: [pathOfImageOfPhase, imageFlipped, zulrahType, zulrahLocation, playerLocation, prayerNeeded]
+const possiblePhases = {
+    RED_BOTTOMLEFT_MIDDLE: ['./images/red_bottom', false, zulrahTypes.RED, zulrahSpots.LEFT, playerSpots.BOTTOM_LEFT, prayers.NOT_APPLICABLE]
+}
+
+//Holds the options the user selected as values for enums
 let chosenOptions = {
     ZULRAH: '',
     ZULRAH_SPOT: '',
@@ -17,6 +51,8 @@ let chosenOptions = {
     PRAYER: '',
 }
 
+let optionState = optionStates.ZULRAH
+let currentPhase = possiblePhases.RED_BOTTOMLEFT_MIDDLE
 
 
 //Changes the state of the option selectors to know which to show and which to store
@@ -79,13 +115,18 @@ const resetAllOptionSections = () => {
     Array.from(children).slice(1).forEach((element) => element.classList.add(hideDivClassName))
 
     //Reset the chosen options
+    resetChosenOptions()
+
+    //Reset the current option group selected
+    optionState = optionStates.ZULRAH
+}
+
+//Resets the chosen options
+const resetChosenOptions = () => {
     chosenOptions.ZULRAH = ''
     chosenOptions.ZULRAH_SPOT = ''
     chosenOptions.MOVE = ''
     chosenOptions.PRAYER = ''
-
-    //Reset the current option group selected
-    optionState = optionStates.ZULRAH
 }
 
 //Once an option is selected, the selection will be saved and a new section of options will appear
@@ -97,20 +138,21 @@ const pickOption = (parentId, element) => {
     if (parentId == optionState) {
         //If the player selects the prayer option - that is when it will tell the player whether it was right or not
         if (optionState === optionStates.PRAYER) {
+            moveToNextOption(element.id)
             
-            //TODO - get bool back from below check
-            let correct = false
-            //TODO - Check if the selections were correct compared to the next phase
+            //Check if the selections were correct compared to the next phase
+            let correct = checkIfCorrectOptions()
 
             if (correct) {
-                
-                //TODO - Change the current phase header text, the current phase image, 
+                console.log('CORRECT')
+                //TODO - Change the current phase header text, the current phase image,
                 //increment progress counter, change the next phase image, and add old next image to left panel
-            }
-            else {
+            } else {
                 //Show warning that its incorrect and to check rotations page if needed
+                console.log('INCORRECT')
             }
-            
+
+            resetChosenOptions()
             resetAllOptionSections()
         }
         //If the player selected from any of the other option groups
@@ -127,6 +169,19 @@ const showOptionGroup = () => {
     section.classList.remove(hideDivClassName)
 }
 
+//Validates the users selected options against the current phase info
+const checkIfCorrectOptions = () => {
+    if (optionState == optionStates.ZULRAH) {
+        if (
+            currentPhase[2] == chosenOptions.ZULRAH &&
+            currentPhase[3] == chosenOptions.ZULRAH_SPOT &&
+            currentPhase[4] == chosenOptions.MOVE &&
+            currentPhase[5] == chosenOptions.PRAYER
+        )
+            return true
+    }
+    return false
+}
 
 /* ------------------------------------
     Adding event listeners
