@@ -97,7 +97,21 @@ const pickOption = (parentId, element) => {
     if (parentId == optionState) {
         //If the player selects the prayer option - that is when it will tell the player whether it was right or not
         if (optionState === optionStates.PRAYER) {
+            
+            //TODO - get bool back from below check
+            let correct = false
+            //TODO - Check if the selections were correct compared to the next phase
 
+            if (correct) {
+                
+                //TODO - Change the current phase header text, the current phase image, 
+                //increment progress counter, change the next phase image, and add old next image to left panel
+            }
+            else {
+                //Show warning that its incorrect and to check rotations page if needed
+            }
+            
+            resetAllOptionSections()
         }
         //If the player selected from any of the other option groups
         else {
