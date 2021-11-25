@@ -5,22 +5,38 @@ const optionStates = {
     ZULRAH: 'divZulrahType',
     ZULRAH_SPOT: 'divZulrahSpot',
     MOVE: 'divPlayerSpot',
-    PRAYER: 'divNeededPrayer',
+    PRAYER: 'divNeededPrayer'
 }
 
 let optionState = optionStates.ZULRAH
 
+let chosenOptions = {
+    ZULRAH: '',
+    ZULRAH_SPOT: '',
+    MOVE: '',
+    PRAYER: '',
+}
+
+
 
 //Changes the state of the option selectors to know which to show and which to store
-const moveToNextOption = () => {
-    if (optionState == optionStates.ZULRAH)
+const moveToNextOption = (id) => {
+    if (optionState == optionStates.ZULRAH) {
         optionState = optionStates.ZULRAH_SPOT
-    else if (optionState == optionStates.ZULRAH_SPOT)
+        chosenOptions.ZULRAH = id
+    }
+    else if (optionState == optionStates.ZULRAH_SPOT) {
         optionState = optionStates.MOVE
-    else if (optionState == optionStates.MOVE)
+        chosenOptions.ZULRAH_SPOT = id
+    }
+    else if (optionState == optionStates.MOVE) {
         optionState = optionStates.PRAYER
-    else if (optionState == optionStates.PRAYER)
+        chosenOptions.MOVE = id
+    }
+    else if (optionState == optionStates.PRAYER) {
         optionState = optionStates.ZULRAH
+        chosenOptions.PRAYER = id
+    }
 }
 
 //Returns the children given the parent element and the selector text
@@ -58,22 +74,36 @@ const resetAllOptionSections = () => {
 
     //Add the event listeners and reset the css for each child
     children.forEach((element) => addSectionEventListeners(element.id))
+    
     //Add the css to each element of all but the first section of options
-    Array.from(children).slice(1).forEach((element) => {
-        element.classList.add(hideDivClassName)
-    })
+    Array.from(children).slice(1).forEach((element) => element.classList.add(hideDivClassName))
+
+    //Reset the chosen options
+    chosenOptions.ZULRAH = ''
+    chosenOptions.ZULRAH_SPOT = ''
+    chosenOptions.MOVE = ''
+    chosenOptions.PRAYER = ''
+
+    //Reset the current option group selected
+    optionState = optionStates.ZULRAH
 }
 
 //Once an option is selected, the selection will be saved and a new section of options will appear
 const pickOption = (parentId, element) => {
-    console.log(parentId, element.id)
     element.classList = ''
     element.classList.add('highlightedImg')
 
     //If the latest option group had one of the options selected, show the next section
     if (parentId == optionState) {
-        moveToNextOption()
-        showOptionGroup()
+        //If the player selects the prayer option - that is when it will tell the player whether it was right or not
+        if (optionState === optionStates.PRAYER) {
+
+        }
+        //If the player selected from any of the other option groups
+        else {
+            moveToNextOption(element.id)
+            showOptionGroup()
+        }
     }
 }
 
