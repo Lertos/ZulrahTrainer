@@ -162,7 +162,7 @@ const phases = {
     ],
     GREEN_BOTTOMRIGHT_RIGHT: [
         './images/green_bottom_right_ranged.png',
-        true,
+        false,
         zulrahTypes.JAD,
         zulrahSpots.RIGHT,
         playerSpots.BOTTOM_RIGHT,
