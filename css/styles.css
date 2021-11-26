@@ -62,6 +62,9 @@ h3 {
 }
 
 .flippedImg {
+    -webkit-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
     transform: scaleX(-1);
 }
 
@@ -100,7 +103,6 @@ h3 {
 
 .flex-child {
     flex: 1;
-    border: 5px solid rgb(75, 121, 75);
     margin: 30px;
     padding: 10px;
     text-align: center;

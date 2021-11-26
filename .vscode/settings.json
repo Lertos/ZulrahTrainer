@@ -1,0 +1,6 @@
+{
+    "editor.autoIndent": "none",
+    "omnisharp.useEditorFormattingSettings": false,
+    "editor.detectIndentation": false,
+    "prettier.bracketSpacing": false
+}
