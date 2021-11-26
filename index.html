@@ -37,11 +37,9 @@
                     <div>
                         <img class='stackedImg' src="./images/base_question.png">
                     </div>
-                    <div class='hidden'>
-                        <img class='stackedImg' src="">
-                        <button class='button'>Next Phase</button>
-                    </div>
                 </div>
+
+                <h3 id='incorrectMessage' class='red hidden'>INCORRECT: Try again!</h3>
 
                 <div id='divOptionPicker'>
 
@@ -79,6 +77,11 @@
                         <img id='not_applicable' class='borderedImg' src="./images/not_applicable.png">
                     </div>
 
+                </div>
+
+                <div id='divStartNextRotation' class='hidden'>
+                    <h3>Click below to start a new rotation</h3>
+                    <button id='btnNextRotation' class='button'>Next</button>
                 </div>
 
             </div>

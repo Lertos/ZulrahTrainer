@@ -1,5 +1,5 @@
 
-const hideDivClassName = 'hidden'
+const hiddenClassName = 'hidden'
 
 const optionStates = {
     ZULRAH: 'divZulrahType',
@@ -310,6 +310,9 @@ const moveToNextOption = (id) => {
     if (optionState == optionStates.ZULRAH) {
         optionState = optionStates.ZULRAH_SPOT
         chosenOptions.ZULRAH = id
+        
+        //To remove the "incorrect" message after a failed phase attempt
+        document.querySelector('#incorrectMessage').classList.add(hiddenClassName)
     }
     else if (optionState == optionStates.ZULRAH_SPOT) {
         optionState = optionStates.MOVE
@@ -325,6 +328,18 @@ const moveToNextOption = (id) => {
     }
 }
 
+//Changes the current chosen option of the current option state
+const changeCurrentOption = (parentId, id) => {
+    if (parentId == optionStates.ZULRAH)
+        chosenOptions.ZULRAH = id
+    else if (parentId == optionStates.ZULRAH_SPOT)
+        chosenOptions.ZULRAH_SPOT = id
+    else if (parentId == optionStates.MOVE)
+        chosenOptions.MOVE = id
+    else if (parentId == optionStates.PRAYER)
+        chosenOptions.PRAYER = id
+}
+
 //Updates the image of the current phase, adds the current phase to the progress panel, and updates the phase
 const moveToNextPhase = () => {
     addPhaseToRotationProgressPanel()
@@ -338,9 +353,19 @@ const moveToNextPhase = () => {
         currentPhaseDiv.innerHTML += '<img class="stackedImg" src="' + currentPhase[0] + '">'
     
     currentPhaseCounter++
+
+    //Check to see if the rotation is over - if so hide the options and allow the user to pick another rotation
+    if (currentPhaseCounter >= currentRotation.length) {
+        document.querySelector('#divOptionPicker').classList.add(hiddenClassName)
+        document.querySelector('#divStartNextRotation').classList.remove(hiddenClassName)
+    }
+
     currentPhase = currentRotation[currentPhaseCounter]
-    
-    console.log(currentPhase)
+
+    //Rotations A and B need to be pushed one as they share the same path until the 4th phase
+    //so they wouldn't know which one it is unless it's given to them
+    if (currentRotation[1][2] == 'red' && currentPhaseCounter == 3)
+        moveToNextPhase()
 }
 
 //Returns the children given the parent element and the selector text
@@ -382,6 +407,9 @@ const resetAll = () => {
     //Reset the progress panel
     document.querySelector('#divRotationProgress').innerHTML = ''
 
+    document.querySelector('#divOptionPicker').classList.remove(hiddenClassName)
+    document.querySelector('#divStartNextRotation').classList.add(hiddenClassName)
+
     //Reset the current data
     optionState = optionStates.ZULRAH
     currentRotation = rotations[Object.keys(rotations)[Math.floor(Math.random() * 4)]]
@@ -400,7 +428,7 @@ const resetOptionPanel = () => {
     children.forEach((element) => addSectionEventListeners(element.id))
     
     //Add the css to each element of all but the first section of options
-    Array.from(children).slice(1).forEach((element) => element.classList.add(hideDivClassName))
+    Array.from(children).slice(1).forEach((element) => element.classList.add(hiddenClassName))
 
     //Reset the chosen options
     resetChosenOptions()
@@ -424,21 +452,19 @@ const pickOption = (parentId, element) => {
 
     //If the latest option group had one of the options selected, show the next section
     if (parentId == optionState) {
+
         //If the player selects the prayer option - that is when it will tell the player whether it was right or not
         if (optionState === optionStates.PRAYER) {
             moveToNextOption(element.id)
 
-            console.log(chosenOptions)
             //Check if the selections were correct compared to the next phase
             let correct = checkIfCorrectOptions()
 
             if (correct) {
-                console.log('CORRECT')
-                
                 moveToNextPhase()
             } else {
                 //Show warning that its incorrect and to check rotations page if needed
-                console.log('INCORRECT')
+                document.querySelector('#incorrectMessage').classList.remove(hiddenClassName)
             }
 
             resetOptionPanel()
@@ -449,12 +475,15 @@ const pickOption = (parentId, element) => {
             showOptionGroup()
         }
     }
+    else {
+        changeCurrentOption(parentId, element.id)
+    }
 }
 
 //Removes the hidden css class from the newly unlocked group
 const showOptionGroup = () => {
     const section = document.querySelector('#' + optionState)
-    section.classList.remove(hideDivClassName)
+    section.classList.remove(hiddenClassName)
 }
 
 //Validates the users selected options against the current phase info
@@ -507,15 +536,15 @@ const addPhaseToRotationProgressPanel = () => {
 document.querySelector('#btnSeeRotations').addEventListener("click", (e) => {
     //If the user wants to see the rotations page
     if (e.currentTarget.textContent == 'See Rotations') {
-        document.getElementById('divRightPanel').classList.add(hideDivClassName)
-        document.getElementById('divRightPanelRotations').classList.remove(hideDivClassName)
+        document.getElementById('divRightPanel').classList.add(hiddenClassName)
+        document.getElementById('divRightPanelRotations').classList.remove(hiddenClassName)
 
         e.currentTarget.textContent = 'Back to Trainer'
     }
     //If the user wants to see the training page
     else if (e.currentTarget.textContent == 'Back to Trainer') {
-        document.getElementById('divRightPanelRotations').classList.add(hideDivClassName)
-        document.getElementById('divRightPanel').classList.remove(hideDivClassName)
+        document.getElementById('divRightPanelRotations').classList.add(hiddenClassName)
+        document.getElementById('divRightPanel').classList.remove(hiddenClassName)
 
         e.currentTarget.textContent = 'See Rotations'
     }
@@ -523,6 +552,7 @@ document.querySelector('#btnSeeRotations').addEventListener("click", (e) => {
 
 //Reset button
 document.querySelector('#btnReset').addEventListener('click', (e) => resetAll())
+document.querySelector('#btnNextRotation').addEventListener('click', (e) => resetAll())
 
 //Start it all off
 buildRotationGuidePage()
